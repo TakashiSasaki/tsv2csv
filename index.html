@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>TSVをCSVに変換する</title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- import the webpage's stylesheet -->
+    <link rel="stylesheet" href="/style.css">
+    <!-- import the webpage's javascript file -->
+    <script src="/script.js" defer></script>
+    <script src="/createCsv.js" defer></script>
+  </head>
+  <body>
+    <h1 style="border-style:solid; color:red">
+      2019年9月19日現在、改行を含むセルに対応するため改良中です。しばらくお待ちください。
+    </h1>
+    <h1>
+      Excel TSV→CSV変換ツール
+    </h1>
+    <p>ExcelのTSVをCSVに変換します。Excelでセル範囲をコピーするとクリップボードにTSVとしてコピーされます。
+      TSVの各フィールドには基本的に二重引用符がつきませんので、数値か文字列かの判定はできません。
+      <span class="caution">セル内に改行がある場合は二重引用符がつけられますが、このようなデータには現在のところ対応しておりません。</span>
+      変換処理はすべてブラウザ内部で行われますので<span class="green">サーバにデータが送信されることはありません。</span>
+      <button onclick="setExample();createCsv();">
+      小さなサンプルデータで試す(レコード数3)
+      </button>
+            <button onclick="setLargeExample();createCsv();">
+      大きなサンプルデータで試す（レコード数10000　数十秒～数分かかります）
+      </button>
+      <button onclick="setMultipleLinesExample();createCsv();">
+        セル内に改行を含むサンプルデータで試す（レコード数3)
+      </button>
+      <button onclick="clearData();createCsv();">
+      データをクリアする
+      </button></p>
+    <h1>手順１</h1>
+    <p>Excelでセル範囲をコピーし、TSVをペーストしてください。
+      </p>
+    <textarea id="tsvTextarea" onchange="createCsv();"></textarea>
+    <input readonly="1" id="linesInput">行（最終行が空行の場合はそれを含みません）
+    <h1>
+      手順２
+    </h1>
+    <p>数値として扱いたい列番号を半角数字で入力してください。複数ある場合はカンマで区切ってください。
+    第一行がヘッダ行であるなどの理由で第一行の各フィールドをすべて文字列として扱いたい場合は
+    チェックボックスをチェックしてください。</p>
+    <input placeholder="例 1,2,3,5" value="" id="numberColumnsInput" onchange="createCsv();"/>
+    <span><input type="checkbox" id="hasHeaderInput" onchange="createCsv();">第一行はすべて文字列として扱い二重引用符で囲む</span>
+    <h1>手順３</h1>
+    <p>
+      下のテキストエリアにCSV形式のデータが表示されます。
+      手順１，２のいずれの操作をしても、自動的に更新されます。
+      更新されない場合は下のテキストエリアをクリックしてください。
+      <a href="" id="downloadA" download="csv.txt">ファイルとしてCSVをダウンロード</a>
+    </p>
+    <textarea id="csvTextarea" onclick="createCsv();"></textarea>
+    <p>
+      <input id="nCsvRows">行
+    </p>
+    
+    <h1>手順３－２</h1>
+    <p>JSON形式のデータが必要な場合は下のテキストエリアの内容を使用してください。</p>
+    <textarea id="jsonTextarea" onclick="createCsv();"></textarea>
+  </body>
+</html>
