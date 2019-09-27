@@ -1,3 +1,9 @@
+var csvPlaceholder='researcherId","surName","givenName","flag1","value1"\n\
+01234567,Ehime,Taro,"TRUE","999"\n\
+987654321,Aidai,Hanako,"FALSE","111"';
+document.querySelector("#step3 textarea").setAttribute("placeholder", "例\n"+csvPlaceholder);
+document.querySelector("#step3 input").setAttribute("placeholder", "例 1,2,3");
+
 function onCreateCsvButtonClick(){
   if(parserResult === undefined || parserResult === null) return;
   var x = document.querySelector("#step3 input").value.split(",");
@@ -45,6 +51,6 @@ function emitCsv(csvRows){
   var csvString = csvRowStrings.join("\n");
   document.querySelector("#csvTextarea").value = csvString + "\n";
   document.querySelector("#step3 textarea").classList.remove("hidden");
-  document.querySelector("#step4 a").classList.remove("hidden");
-  document.querySelector("#step4 a").download = "" + (new Date()).getTime() + ".csv";
+  document.querySelectorAll("#step4 a").forEach(x=>x.classList.remove("hidden"));
+  document.querySelectorAll("#step4 a").forEach(x=>x.download = "" + (new Date()).getTime() + ".csv");
 }//emitCsv

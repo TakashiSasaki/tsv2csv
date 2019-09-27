@@ -1,3 +1,12 @@
+var tsvPlaceholder="researcherId	surName	givenName	flag1	value1\n\
+01234567	Ehime	Taro	TRUE	999\n\
+987654321	Aidai	Hanako	FALSE	111\n\
+";
+
+var jsonPlaceholder='[["\"researcherId\"","\"surName\"","\"givenName\"","\"flag1\"","\"value1\""],["\"01234567\"","\"Ehime\"","\"Taro\"","\"TRUE\"","\"999\""],["\"987654321\"","\"Aidai\"","\"Hanako\"","\"FALSE\"","\"111\""]]';
+
+document.querySelector("#step1 textarea").setAttribute("placeholder", "例\n"+tsvPlaceholder);
+
 function setExample1(){
   if(document.querySelector("#tsvTextarea").readOnly === true) return;
   document.querySelectorAll("#step1 button.example").forEach(x=>x.disabled=true);
@@ -69,6 +78,16 @@ function setExample4(){
   lockTsvTextarea();
 }//setExample4
 
+function setExample5(){
+  document.querySelectorAll("#step1 button.example").forEach(x=>x.disabled=true);
+  document.querySelector("#step1 textarea").value = "\
+姓\t名\n\
+愛大\t太郎\n\
+松山\t花子\n\
+";
+  lockTsvTextarea();
+}//setExample5
+
 function lockTsvTextarea(){
   document.querySelector("#tsvTextarea").readOnly = true;
   document.querySelector("#tsvTextarea").classList.add("yellow");
@@ -93,3 +112,4 @@ function clearTsvTextarea(){
   document.querySelector("#step2 button").disabled = true;
   document.querySelector("#step3 button").disabled = true;
 }
+
