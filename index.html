@@ -1,68 +1,116 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <title>TSVをCSVに変換する</title>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <!-- import the webpage's stylesheet -->
-    <link rel="stylesheet" href="/style.css">
-    <!-- import the webpage's javascript file -->
-    <script src="/script.js" defer></script>
-    <script src="/createCsv.js" defer></script>
-    <script src="/Parsimmon.js" ></script>
-    <script src="/tsvParser.js" defer></script>
-  </head>
-  <body>
-    <h1 style="border-style:solid; color:red">
-      2019年9月19日現在、改行を含むセルに対応するため改良中です。しばらくお待ちください。
-    </h1>
-    <h1>
-      Excel TSV→CSV変換ツール
-    </h1>
-    <p>ExcelのTSVをCSVに変換します。Excelでセル範囲をコピーするとクリップボードにTSVとしてコピーされます。
-      TSVの各フィールドには基本的に二重引用符がつきませんので、数値か文字列かの判定はできません。
-      <span class="caution">セル内に改行がある場合は二重引用符がつけられますが、このようなデータには現在のところ対応しておりません。</span>
-      変換処理はすべてブラウザ内部で行われますので<span class="green">サーバにデータが送信されることはありません。</span>
-      <button onclick="setExample();createCsv();">
-      小さなサンプルデータで試す(レコード数3)
-      </button>
-            <button onclick="setLargeExample();createCsv();">
-      大きなサンプルデータで試す（レコード数10000　数十秒～数分かかります）
-      </button>
-      <button onclick="setMultipleLinesExample();createCsv();">
-        セル内に改行を含むサンプルデータで試す（レコード数3)
-      </button>
-      <button onclick="clearData();createCsv();">
-      データをクリアする
-      </button></p>
-    <h1>手順１</h1>
-    <p>Excelでセル範囲をコピーし、TSVをペーストしてください。
-      </p>
-    <textarea id="tsvTextarea" onchange="createCsv();"></textarea>
-    <input readonly="1" id="linesInput">行（最終行が空行の場合はそれを含みません）
-    <h1>
-      手順２
-    </h1>
-    <p>数値として扱いたい列番号を半角数字で入力してください。複数ある場合はカンマで区切ってください。
-    第一行がヘッダ行であるなどの理由で第一行の各フィールドをすべて文字列として扱いたい場合は
-    チェックボックスをチェックしてください。</p>
-    <input placeholder="例 1,2,3,5" value="" id="numberColumnsInput" onchange="createCsv();"/>
-    <span><input type="checkbox" id="hasHeaderInput" onchange="createCsv();">第一行はすべて文字列として扱い二重引用符で囲む</span>
-    <h1>手順３</h1>
-    <p>
-      下のテキストエリアにCSV形式のデータが表示されます。
-      手順１，２のいずれの操作をしても、自動的に更新されます。
-      更新されない場合は下のテキストエリアをクリックしてください。
-      <a href="" id="downloadA" download="csv.txt">ファイルとしてCSVをダウンロード</a>
-    </p>
-    <textarea id="csvTextarea" onclick="createCsv();"></textarea>
-    <p>
-      <input id="nCsvRows">行
-    </p>
-    
-    <h1>手順３－２</h1>
-    <p>JSON形式のデータが必要な場合は下のテキストエリアの内容を使用してください。</p>
-    <textarea id="jsonTextarea" onclick="createCsv();"></textarea>
-  </body>
+   <head>
+      <title>tsv2csv Excelのセル範囲をCSVに変換する</title>
+      <meta charset="utf-8">
+      <meta http-equiv="X-UA-Compatible" content="IE=edge">
+      <meta name="viewport" content="width=device-width, initial-scale=1">
+      <!-- import the webpage's stylesheet -->
+      <link rel="stylesheet" href="/style.css">
+      <!-- import the webpage's javascript file -->
+      <script src="/script.js" defer></script>
+      <script src="/step1.js" defer></script>
+      <script src="/step2.js" defer></script>
+      <script src="/step3.js" defer></script>
+      <script src="/step4.js" defer></script>
+      <script src="/Parsimmon.js"></script>
+      <script src="/tsvParser.js" defer></script>
+      <script src="/countLines.js" defer></script>
+      <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+      <script type="text/javascript">
+         google.charts.load('current', {'packages':['table']});     
+      </script>
+   </head>
+   <body>
+      <h1 style="border-style:solid; color:red">
+         2019年9月19日現在、改行を含むセルに対応するため改良中です。しばらくお待ちください。
+      </h1>
+      <div id="step1">
+         <h1>手順１TSVの入力</h1>
+         <p>
+            Excelのセル範囲をコピー＆ペーストしてください。いくつかの例で動作を試すこともできます。
+         </p>
+         <button onclick="setExample1();" class="example">例１</button>
+         <button onclick="setExample2();" class="example">例２</button>
+         <button onclick="setExample3();" class="example">例３</button>
+         <button onclick="setExample4();" class="example">例４</button>
+         <!--<a href="/readme.html" target="readme">説明</a>-->
+         <textarea id="tsvTextarea" onchange="countLines();"></textarea>
+         <button onclick="lockTsvTextarea();" class="example">
+         ペーストした内容でTSVを確定する（行数を数えます）
+         </button>
+         <button onclick="clearTsvTextarea();">
+         TSVをクリアする（再びペーストできるようになります）
+         </button>
+         <div>
+            <input readonly="1" id="nTsvTextLines" class="lines">行（最終行が空行の場合もそれを含みます）
+         </div>
+      </div>
+      <div id="step2">
+         <h1>
+            手順２ TSVの分析
+         </h1>
+         <p>
+            二重引用符で囲まれたセルを取り扱う方法を選ぶと分析が始まり、行数と列数、先頭の10行までが表示されます。
+            異なる列数の行が混在してる場合は二重引用符の取り扱いを変更してください。
+         </p>
+         <div>
+            <p>
+               TSVにおいて二重引用符で囲まれたセルは
+            <ul>
+               <li><input type="radio" name="embracedFieldType" value="EMBRACED_FIELD_TYPE_NONE" checked="1">存在しないものとして扱う。</li>
+               <li><input type="radio" name="embracedFieldType" value="EMBRACED_FIELD_TYPE_TAB">タブを含むが改行を含まないものとして扱う。</li>
+               <li><input type="radio" name="embracedFieldType" value="EMBRACED_FIELD_TYPE_NL">改行を含むがタブを含まないものとして扱う。</li>
+               <li><input type="radio" name="embracedFieldType" value="EMBRACED_FIELD_TYPE_NLTAB">改行かタブを含むものとして扱う。</li>
+            </ul>
+            </p>
+            <p>
+               TSVにおいてセルの先頭が二重引用符なら
+            <ul>
+               <li><input type="radio" name="embracedFieldFirst" value="EMBRACED_FIELD_FIRST_YES" checked="1">対応する二重引用符を優先して探す。</li>
+               <li><input type="radio" name="embracedFieldFirst" value="EMBRACED_FIELD_FIRST_NO">次のセルの先頭を優先して探す。</li>
+            </ul>
+            </p>
+         </div>
+         <button onclick="onParseButtonClick();" disabled="true">
+         上記の設定に従ってTSVを分析する（行数が多い場合は時間がかかります）
+         </button>
+         <table class="yellow"></table>
+         <div class="chart" id="tableChartDiv"></div>
+         <p class="caution hidden">
+            確認のために分析した結果を先頭から10行まで表示しています。
+            セルの個数や行数が入力したTSVと異なる場合は、
+            二重引用符の取り扱いを変更して分析しなおしてください。
+         </p>
+      </div>
+      <div id="step3">
+         <h1>
+            手順３ CSVの生成
+         </h1>
+         <p>数値として扱いたい列番号<input placeholder="例 1,2,3,5" value="" id="numberColumnsInput"/>
+           （複数ある場合はカンマで区切り）
+        </p>
+         
+         <span><input type="checkbox" id="hasHeaderInput">第一行はすべて文字列として扱い二重引用符で囲む</span>
+        <p>
+          <button disabled="true" onclick="onCreateCsvButtonClick();">
+            上記の設定に従ってCSVを生成する
+          </button>
+        </p>
+      <textarea id="csvTextarea" class="hidden yellow" readonly="1"></textarea>
+      </div>
+
+<div id="step4">
+  <h1>
+    手順４ CSVのダウンロード
+  </h1>
+  CSVの生成が完了すると、ファイルとしてダウンロードできるようになります。
+  <p>  
+  <a href="" id="downloadA" download="csv.csv" class="hidden">ファイルとしてCSVをダウンロード</a>
+  </p>
+  <button onclick="startOver();">
+      手順１に戻ってTSVをクリアする
+  </button>
+</div>
+   </body>
 </html>

@@ -1,0 +1,50 @@
+<html>
+   <head>
+      <title>tsv2csv readme</title>
+      <meta charset="utf-8">
+      <meta http-equiv="X-UA-Compatible" content="IE=edge">
+      <meta name="viewport" content="width=device-width, initial-scale=1">
+      <link rel="stylesheet" href="/style.css">
+   </head>
+</html>
+<body>
+   <h1>
+      tsv2csvの概要（執筆中）
+   </h1>
+   <p>
+      TSVをCSVに変換するツールです。
+      Excelでセル範囲をコピーするとクリップボードにTSVとしてコピーされます。
+      変換処理はすべてブラウザ内部で行われますので<span class="green">サーバにデータが送信されることはありません。</span>
+   </p>
+  <p>
+     Excelのセルは二重引用符、改行、タブを含む場合があります。
+      セルがタブも改行も含まなければ、二重引用符は特別な扱いを受けることなくTSVに現れます。
+      セルがタブか改行を含む場合、セルの内容はTSVにおいて二重引用符で囲まれ、
+      さらにそのようなセルに含まれていた二重引用符は連続する二重引用符としてTSVに現れます。
+      たとえば例４のExcelシートにおいて一行目と二行目は異なる内容であるにもかかわらず、
+      TSVにおいては同じ文字列になり、自動的に判別することができません。
+      そのためTSVにおいて二重引用符に遭遇した場合の取り扱いを指定する必要があります。
+      <span class="caution">分析結果が期待した結果と異なる場合は、以下のオプションを変更して再度分析してください。</span>
+    
+  </p>
+
+   <h1>
+      変換例
+   </h1>
+   <h2>
+      例１）小さなサンプルデータ(レコード数3)
+   </h2>
+   <h2>
+      例２）大きなサンプルデータ（レコード数10000　数十秒～数分かかります） 
+   </h2>
+   <h2>
+      例３）セル内に改行を含むサンプルデータで試す（レコード数3)
+   </h2>
+   <img src="https://cdn.glitch.com/104e6e26-6e2e-4967-be6a-465324231dfc%2Fexample3.png?v=1569303968598">
+   <h2>
+      例４）セル内にタブを含むサンプルデータで試す（レコード数2)
+   </h2>
+   <img src="https://cdn.glitch.com/104e6e26-6e2e-4967-be6a-465324231dfc%2Fexample4?v=1569304988749">
+   <p class="description">
+   </p>
+</body>
