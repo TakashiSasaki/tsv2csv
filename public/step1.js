@@ -89,23 +89,24 @@ function setExample5(){
 }//setExample5
 
 function lockTsvTextarea(){
-  document.querySelector("#tsvTextarea").readOnly = true;
-  document.querySelector("#tsvTextarea").classList.add("yellow");
-  var tsvText = document.querySelector("#tsvTextarea").value;
-  var tsvLines = tsvText.split("\n");
-  document.querySelector("#nTsvTextLines").value = tsvLines.length;
-  document.querySelector("#nTsvTextLines").classList.add("yellow");
+  document.querySelector("#step1 textarea").readOnly = true;
+  document.querySelector("#step1 textarea").classList.add("yellow");
+  document.querySelector("#step1 input").value = 
+  document.querySelector("#step1 textarea").value.split("\n").length;
+  document.querySelector("#step1 input").classList.add("yellow");
+  document.querySelector("#step1 .result").classList.remove("hidden");
   document.querySelector("#step2 button").disabled = false;
 }
 
 function clearTsvTextarea(){
   parserResult = undefined;
-  document.querySelector("#tsvTextarea").value = "";
-  document.querySelector("#tsvTextarea").readOnly = false;
-  document.querySelector("#tsvTextarea").classList.remove("yellow");
-  document.querySelector("#nTsvTextLines").value = "";
-  document.querySelector("#nTsvTextLines").classList.remove("yellow");  
-  document.querySelectorAll("button.example").forEach(x=>x.disabled=false);
+  document.querySelector("#step1 textarea").value = "";
+  document.querySelector("#step1 textarea").readOnly = false;
+  document.querySelector("#step1 textarea").classList.remove("yellow");
+  document.querySelector("#step1 input").value = "";
+  document.querySelector("#step1 input").classList.remove("yellow");  
+  document.querySelectorAll("#step1 button").forEach(x=>x.disabled=false);
+  document.querySelector("#step1 .result").classList.add("hidden");
   document.querySelector('#step2 table').innerText = null;
   document.querySelector("#step2 .chart").innerText = null;
   document.querySelector("#step2 p.caution").classList.add("hidden");

@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="ja">
   <head>
-    <title>tsv2csv Excelのセル範囲をCSVに変換する</title>
+    <title>tsv2csv Excelのセル範囲をコピー＆ペーストして得られるTSVをCSVに変換</title>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -13,27 +13,37 @@
     </script>
     <script src="/Parsimmon.js"></script>
     <script src="/TsvParser.js"></script>
+    <script src="/step0.js" defer></script>
     <script src="/step1.js" defer></script>
     <script src="/step2.js" defer></script>
     <script src="/step3.js" defer></script>
     <script src="/step4.js" defer></script>
   </head>
   <body>
-    <h1 style="border-style:solid; color:red">
-      2019年9月19日現在、改行を含むセルに対応するため改良中です。しばらくお待ちください。
-    </h1>
-    <div id="step1">
+    <div id="step0">
+      <p>
+        Excelのセル範囲をコピー＆ペーストして得られるTSVをCSVに変換します。全ての処理はブラウザで行われますので、
+        サーバに情報が送信されることはありません。
+        セル内に改行やタブを含むTSVにも対応しています。UTF-8だけでなくShift JISにも対応していますので、
+        得られたCSVファイルはExcelで開くことができます。
+      </p>
+      <ul>
+        <li><a href="https://tsv2csv.glitch.me/">テスト版（Glitch）<span class="glitch"></span></a></li>
+        <li><a href="https://tsv2csv.firebaseapp.com">安定版（Firebase）<span class="firebase"></span></a></li>
+      </ul>
+      <p>
+        テスト版は不定期に更新されます。安定版はテスト版で問題が見つからなかった場合にのみ更新されます。
+      </p>
+    </div>
+    <div id="step1">        
       <h1>手順１TSVの入力</h1>
       <p>
-        Excelのセル範囲をコピー＆ペーストしてください。いくつかの例で動作を試すこともできます。
+        Excelのセル範囲をコピー＆ペーストしてください。
       </p>
-      <button onclick="setExample1();" class="example">例１</button>
-      <button onclick="setExample2();" class="example">例２</button>
-      <button onclick="setExample3();" class="example">例３</button>
-      <button onclick="setExample4();" class="example">例４</button>
-      <button onclick="setExample5();" class="example">例５</button>
       <!--<a href="/readme.html" target="readme">説明</a>-->
-      <textarea id="tsvTextarea" onchange="countLines();"></textarea>
+      <textarea id="tsvTextarea" 
+                autocomplete="off" autocorrect="off" autocapitalize="off" 
+                spellcheck="false"></textarea>
       <button onclick="lockTsvTextarea();" class="example">
       ペーストした内容でTSVを確定する（行数を数えます）
       </button>
@@ -41,7 +51,15 @@
       TSVをクリアする（再びペーストできるようになります）
       </button>
       <div>
-        <input readonly="1" id="nTsvTextLines" class="lines">行（最終行が空行の場合もそれを含みます）
+      <button onclick="setExample1();" class="example">例１ 3行</button>
+      <button onclick="setExample2();" class="example">例２ 10000行</button>
+      <button onclick="setExample3();" class="example">例３ セル内改行</button>
+      <button onclick="setExample4();" class="example">例４ セル内タブ</button>
+      <button onclick="setExample5();" class="example">例５ 日本語</button>        
+      </div>
+      <div class="result hidden">
+        <input readonly="1" id="nTsvTextLines" class="lines">行（セル内の改行を含みますので、
+        Excelシート上での行数より大きくなる場合があります）
       </div>
     </div>
     <div id="step2">
@@ -94,18 +112,20 @@
         上記の設定に従ってCSVを生成する
         </button>
       </p>
-      <textarea id="csvTextarea" class="hidden yellow" readonly="1"></textarea>
+      <textarea id="csvTextarea" class="hidden yellow" readonly="1"
+                autocomplete="off" autocorrect="off" autocapitalize="off" 
+                spellcheck="false"></textarea>
     </div>
     <div id="step4">
       <h1>
         手順４ CSVのダウンロード
       </h1>
-      CSVの生成が完了すると、ファイルとしてダウンロードできるようになります。
+      CSVの生成が完了すると、ファイルとして保存できるようになります。
       <p>  
         <a href="" id="downloadA" download="csv.csv" class="hidden">UTF-8のテキストファイルとしてCSVをダウンロード</a>
       </p>
       <p>  
-        <a href="" id="downloadShiftJis" download="csv.csv" class="hidden">シフトJISのテキストファイルとしてCSVをダウンロード</a>
+        <a href="" id="downloadShiftJis" download="csv.csv" class="hidden">シフトJISのテキストファイルとしてCSVをダウンロード（Excelで開けます）</a>
       </p>
       <button onclick="startOver();">
       手順１に戻ってTSVをクリアする

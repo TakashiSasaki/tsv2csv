@@ -5,6 +5,8 @@ function onParseButtonClick() {
   document.querySelector("#step2 table").classList.add("hidden");
   document.querySelector("#tableChartDiv").innerText = "分析中";
   document.querySelector("#step3 button").disabled = true;
+  document.querySelector("#step3 textarea").classList.add("hidden");
+  document.querySelector("#step4 A").classList.add("hidden");
   var embracedFieldType = document.querySelector("#step2 input[name='embracedFieldType']:checked").value;
   var bEmbracedFieldFirst = document.querySelector("#step2 input[name='embracedFieldFirst']:checked").value === "EMBRACED_FIELD_FIRST_YES" ? true : false;
 	var tsvText = document.querySelector("#tsvTextarea").value;
