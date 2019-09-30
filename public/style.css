@@ -1,0 +1,63 @@
+/* CSS files add styling rules to your content */
+
+body {
+  font-family: "Benton Sans", "Helvetica Neue", helvetica, arial, sans-serif;
+  margin: 2em;
+}
+
+h1 {
+  font-style: italic;
+  color: #373fff;
+}
+textarea{width:99%;height:8em;}
+
+.caution{
+  color: red;  
+}
+
+.green{
+  color: limegreen;
+}
+
+input.lines{
+  width: 30em;
+}
+
+#statistics TABLE {
+  border-style: solid;
+  border-width: 1px;
+}
+
+button img{
+  height: 100px;
+}
+
+.description {
+  font-size: small;
+}
+
+.yellow{
+  background-color:yellow;
+}
+
+ul {
+   margin: 0px; 
+}
+
+li{
+  list-style-type: none;
+}
+
+.hidden{
+  display: none;
+}
+
+button[disabled='true'] {
+  color: #ccc;  
+  font-weight:normal;
+}
+
+button{
+  font-weight:bold;
+}
+

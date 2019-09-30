@@ -1,0 +1,29 @@
+{
+  "//1": "describes your app and its dependencies",
+  "//2": "https://docs.npmjs.com/files/package.json",
+  "//3": "updating this file will download and update your packages",
+  "name": "tsv2csv",
+  "version": "0.0.1",
+  "description": "Convert Excel TSV to CSV",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "firebase-tools": "^7.4.0",
+    "express": "^4.16.4"
+  },
+  "engines": {
+    "node": "8.x"
+  },
+  "repository": {
+    "url": "https://glitch.com/edit/#!/tsv2csv"
+  },
+  "license": "MIT",
+  "keywords": [
+    "Excel",
+    "TSV",
+    "CSV",
+    "Parsimmon"
+  ]
+}
