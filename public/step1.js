@@ -112,5 +112,5 @@ function clearTsvTextarea(){
   document.querySelector("#step2 p.caution").classList.add("hidden");
   document.querySelector("#step2 button").disabled = true;
   document.querySelector("#step3 button").disabled = true;
-}
-
+  document.querySelector("#step3 textarea").classList.add("hidden");
+}//clearTsvTextarea
