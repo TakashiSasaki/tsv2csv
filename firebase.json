@@ -1,5 +1,9 @@
 {
-  "hosting": {
+  "hosting": [{
+    "target" : "tsv2csv",
     "public": "public"
-  }
+  }, {
+    "target": "test",
+    "public": "test"
+  }]
 }
